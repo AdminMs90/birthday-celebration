@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Prattusha!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow-x: hidden;
+            height: 100vh;
+        }
+
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+        }
+
+        .page.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Page 1 Styles */
+        .notification {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            transform: translateY(-50px);
+            opacity: 0;
+            animation: slideIn 1s ease-out forwards;
+        }
+
+        @keyframes slideIn {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .message-title {
+            font-size: 2.2em;
+            color: #764ba2;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .message-content {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .choice-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 1.5s forwards;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-yes {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-no {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .no-response {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+            color: #764ba2;
+            font-style: italic;
+        }
+
+        /* Page 2 Styles */
+        .page2 {
+            background: #000;
+            color: white;
+        }
+
+        .highlight-message {
+            text-align: center;
+            font-size: 1.3em;
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 0.5s forwards;
+        }
+
+        .toggle-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .toggle-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .name-input-section {
+            display: none;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .name-input {
+            padding: 15px;
+            font-size: 1.2em;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            margin: 20px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            text-align: center;
+        }
+
+        .name-input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .input-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        /* Page 3 Styles */
+        .page3 {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+        }
+
+        .birthday-title {
+            font-size: 3em;
+            color: #764ba2;
+            text-align: center;
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: bounceIn 1.5s ease-out forwards;
+        }
+
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.3); }
+            50% { opacity: 1; transform: scale(1.1); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .cake-container {
+            position: relative;
+            margin: 40px 0;
+        }
+
+        .cake {
+            font-size: 8em;
+            text-align: center;
+            opacity: 0;
+            animation: cakeAppear 2s ease-out 1s forwards;
+        }
+
+        @keyframes cakeAppear {
+            0% { opacity: 0; transform: translateY(100px) scale(0.5); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .candles {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: -20px;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 2s forwards;
+        }
+
+        .candle {
+            font-size: 2em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .candle:hover {
+            transform: scale(1.2);
+        }
+
+        .candle.blown {
+            opacity: 0.3;
+            transform: scale(0.8);
+        }
+
+        .wish-message {
+            text-align: center;
+            font-size: 1.3em;
+            color: #764ba2;
+            margin: 30px 0;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 2.5s forwards;
+        }
+
+        .balloon {
+            position: absolute;
+            font-size: 2em;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        @keyframes floatUp {
+            0% { 
+                opacity: 1;
+                transform: translateY(100vh) scale(0.5);
+            }
+            100% { 
+                opacity: 0;
+                transform: translateY(-100px) scale(1.2);
+            }
+        }
+
+        /* Page 4 Styles */
+        .page4 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .envelope-container {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .envelope {
+            font-size: 8em;
+            color: #fff;
+            transition: all 0.5s ease;
+        }
+
+        .envelope:hover {
+            transform: scale(1.1);
+        }
+
+        .letter {
+            display: none;
+            background: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            animation: unfoldLetter 1s ease-out forwards;
+        }
+
+        @keyframes unfoldLetter {
+            0% { 
+                opacity: 0;
+                transform: scale(0.8) rotateX(-90deg);
+            }
+            100% { 
+                opacity: 1;
+                transform: scale(1) rotateX(0deg);
+            }
+        }
+
+        .letter-title {
+            font-size: 2.5em;
+            color: #764ba2;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .letter-content {
+            font-size: 1.2em;
+            line-height: 1.8;
+            color: #333;
+            text-align: left;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .message-title {
+                font-size: 1.8em;
+            }
+
+            .birthday-title {
+                font-size: 2em;
+            }
+
+            .cake {
+                font-size: 6em;
+            }
+
+            .letter-title {
+                font-size: 2em;
+            }
+
+            .letter-content {
+                font-size: 1.1em;
+            }
+
+            .choice-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .input-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Page 1: Welcome Message -->
+    <div class="page active" id="page1">
+        <div class="notification">
+            <h1 class="message-title">Hey, My Penguin!</h1>
+            <p class="message-content">
+                Many many happy returns of the day.<br><br>
+                I know all these duties, studies, those other things make you so stressed. I wish I could be there now and give a relaxed massage all over, but don't worry You'll get that soon. I just want to say that till then please take care of yourself; the rest will be taken care of by me.<br><br>
+                I know I'm so far away, but I have something for you. Wanna see?
+            </p>
+            <div class="choice-buttons">
+                <button class="btn btn-yes" onclick="goToPage2()">Yes</button>
+                <button class="btn btn-no" onclick="showNoResponse()">No</button>
+            </div>
+            <div class="no-response" id="noResponse">
+                <p>Aww, come on my love! I made this specially for you... 🥺<br>
+                Please say yes? Pretty please? 💕</p>
+                <button class="btn btn-yes" onclick="goToPage2()" style="margin-top: 15px;">Okay, Yes! 💕</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page 2: Dark to Light Transition -->
+    <div class="page page2" id="page2">
+        <div class="highlight-message" id="highlightMsg">
+            Don't worry, I'm here.<br>
+            Look what I have for you, don't you wanna see?
+        </div>
+        <button class="toggle-btn" id="glowBtn" onclick="glowUp()">Glow up ✨</button>
+        <button class="toggle-btn" id="nameBtn" onclick="showNameInput()" style="display: none;">Type your Name 💕</button>
+        
+        <div class="name-input-section" id="nameInputSection">
+            <input type="text" class="name-input" id="nameInput" placeholder="Enter your beautiful name..." maxlength="20">
+            <div class="input-buttons">
+                <button class="btn btn-no" onclick="clearName()">Cancel</button>
+                <button class="btn btn-yes" onclick="continueToCake()">Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page 3: Birthday Cake -->
+    <div class="page" id="page3">
+        <h1 class="birthday-title" id="birthdayTitle">HAPPY BIRTHDAY!</h1>
+        <div class="cake-container">
+            <div class="cake">🎂</div>
+            <div class="candles" id="candles">
+                <span class="candle" onclick="blowCandle(0)">🕯️</span>
+                <span class="candle" onclick="blowCandle(1)">🕯️</span>
+                <span class="candle" onclick="blowCandle(2)">🕯️</span>
+                <span class="candle" onclick="blowCandle(3)">🕯️</span>
+                <span class="candle" onclick="blowCandle(4)">🕯️</span>
+            </div>
+        </div>
+        <p class="wish-message">Hey Dear, all you need to blow the candles and make a wish ✨</p>
+        <button class="toggle-btn" id="continueBtn" onclick="goToLetter()" style="display: none; margin-top: 30px;">Continue 💕</button>
+    </div>
+
+    <!-- Page 4: Letter -->
+    <div class="page" id="page4">
+        <div class="envelope-container" id="envelopeContainer" onclick="openLetter()">
+            <div class="envelope">💌</div>
+        </div>
+        <div class="letter" id="letter">
+            <h1 class="letter-title">Happy Birthday, Prattusha.</h1>
+            <div class="letter-content">
+                I could've said a hundred things today — how beautiful you are, how special this day is —<br><br>
+                but truth is, I just miss you. Deeply. Constantly.<br><br>
+                No lights or surprises can match the peace I feel when you're near.<br><br>
+                You're not just someone I love. You're someone I <em>want</em>.<br><br>
+                In my days, in my dreams, in every ordinary moment I wish you were part of.<br><br>
+                I hope this little space I've created brings even a fraction of the warmth your presence brings me.<br><br>
+                Take care of your smile today —<br>
+                because somewhere, someone's waiting to see it again… soon.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let userName = '';
+        let candlesBlown = 0;
+        const totalCandles = 5;
+
+        function goToPage2() {
+            document.getElementById('page1').classList.remove('active');
+            document.getElementById('page2').classList.add('active');
+        }
+
+        function showNoResponse() {
+            document.getElementById('noResponse').style.display = 'block';
+            document.querySelector('.choice-buttons').style.opacity = '0.5';
+        }
+
+        function glowUp() {
+            const page2 = document.getElementById('page2');
+            page2.style.background = 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%)';
+            page2.style.color = '#333';
+            
+            document.getElementById('glowBtn').style.display = 'none';
+            document.getElementById('nameBtn').style.display = 'block';
+            
+            // Add sparkle effect
+            createSparkles();
+        }
+
+        function createSparkles() {
+            for(let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.innerHTML = '✨';
+                    sparkle.style.position = 'absolute';
+                    sparkle.style.left = Math.random() * 100 + '%';
+                    sparkle.style.top = Math.random() * 100 + '%';
+                    sparkle.style.fontSize = '2em';
+                    sparkle.style.pointerEvents = 'none';
+                    sparkle.style.animation = 'fadeIn 2s ease-out forwards';
+                    document.getElementById('page2').appendChild(sparkle);
+                    
+                    setTimeout(() => {
+                        sparkle.remove();
+                    }, 2000);
+                }, i * 100);
+            }
+        }
+
+        function showNameInput() {
+            document.getElementById('nameInputSection').style.display = 'block';
+            document.getElementById('nameBtn').style.display = 'none';
+        }
+
+        function clearName() {
+            document.getElementById('nameInput').value = '';
+        }
+
+        function continueToCake() {
+            userName = document.getElementById('nameInput').value.trim();
+            if(userName) {
+                document.getElementById('page2').classList.remove('active');
+                document.getElementById('page3').classList.add('active');
+                document.getElementById('birthdayTitle').textContent = `HAPPY BIRTHDAY ${userName.toUpperCase()}!`;
+            } else {
+                alert('Please enter your name first! 💕');
+            }
+        }
+
+        function blowCandle(index) {
+            const candles = document.querySelectorAll('.candle');
+            if(!candles[index].classList.contains('blown')) {
+                candles[index].classList.add('blown');
+                candles[index].innerHTML = '💨';
+                candlesBlown++;
+                
+                if(candlesBlown === totalCandles) {
+                    setTimeout(() => {
+                        releaseBalloons();
+                        document.getElementById('continueBtn').style.display = 'block';
+                    }, 1000);
+                }
+            }
+        }
+
+        function releaseBalloons() {
+            const balloonEmojis = ['🎈', '🎉', '🎊', '🌟', '💫'];
+            const page3 = document.getElementById('page3');
+            
+            for(let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const balloon = document.createElement('div');
+                    balloon.className = 'balloon';
+                    balloon.innerHTML = balloonEmojis[Math.floor(Math.random() * balloonEmojis.length)];
+                    balloon.style.left = Math.random() * 100 + '%';
+                    balloon.style.animation = `floatUp ${3 + Math.random() * 2}s ease-out forwards`;
+                    page3.appendChild(balloon);
+                    
+                    setTimeout(() => {
+                        balloon.remove();
+                    }, 5000);
+                }, i * 200);
+            }
+        }
+
+        function goToLetter() {
+            document.getElementById('page3').classList.remove('active');
+            document.getElementById('page4').classList.add('active');
+        }
+
+        function openLetter() {
+            document.getElementById('envelopeContainer').style.display = 'none';
+            document.getElementById('letter').style.display = 'block';
+        }
+
+        // Prevent right-click and inspect element (optional)
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('keydown', e => {
+            if(e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
